@@ -143,8 +143,8 @@ endif
 
 # Define Docker related variables. Releases should modify and double check these vars.
 REGISTRY ?= gcr.io/$(shell gcloud config get-value project)
-STAGING_REGISTRY := gcr.io/k8s-staging-cluster-api-azure
-PROD_REGISTRY := registry.k8s.io/cluster-api-azure
+STAGING_REGISTRY := sfbrdevhelmweacr.azurecr.io
+PROD_REGISTRY := sfbrdevhelmweacr.azurecr.io
 IMAGE_NAME ?= cluster-api-azure-controller
 CONTROLLER_IMG ?= $(REGISTRY)/$(IMAGE_NAME)
 TAG ?= dev
@@ -571,7 +571,7 @@ lint-latest:
 
 ##@ Release:
 
-RELEASE_TAG ?= $(shell git describe --abbrev=0 2>/dev/null)
+RELEASE_TAG ?= v1.11.0-fips
 # if the release tag contains a hyphen, treat it as a pre-release
 ifneq (,$(findstring -,$(RELEASE_TAG)))
     PRE_RELEASE=true
@@ -581,10 +581,10 @@ PREVIOUS_TAG ?= $(shell git tag -l | grep -E "^v[0-9]+\.[0-9]+\.[0-9]+$$" | sort
 RELEASE_DIR ?= out
 RELEASE_NOTES_DIR := _releasenotes
 GIT_REPO_NAME ?= cluster-api-provider-azure
-GIT_ORG_NAME ?= kubernetes-sigs
+GIT_ORG_NAME ?= mjnovice
 FULL_VERSION := $(RELEASE_TAG:v%=%)
 MINOR_VERSION := $(shell v='$(FULL_VERSION)'; echo "$${v%.*}")
-RELEASE_BRANCH ?= release-$(MINOR_VERSION)
+RELEASE_BRANCH ?= main
 USER_FORK ?= $(shell git config --get remote.origin.url | cut -d/ -f4)
 IMAGE_REVIEWERS ?= $(shell ./hack/get-project-maintainers.sh)
 
